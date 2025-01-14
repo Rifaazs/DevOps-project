@@ -1,29 +1,22 @@
 import unittest
-from utils import calculate_monthly_payment, calculate_total_cost
+from flask import Flask, jsonify
+from utils import calculate_bmi, calculate_bmr
 
-class TestLoanCalculatorUtils(unittest.TestCase):
-    def test_calculate_monthly_payment_with_interest(self):
-        loan_amount = 10000
-        duration_years = 5
-        annual_interest_rate = 5
-        expected_payment = 188.71
-        result = calculate_monthly_payment(loan_amount, duration_years, annual_interest_rate)
-        self.assertAlmostEqual(result, expected_payment, places=2)
+class TestCalculator(unittest.TestCase):
 
-    def test_calculate_monthly_payment_no_interest(self):
-        loan_amount = 10000
-        duration_years = 5
-        annual_interest_rate = 0
-        expected_payment = 166.67
-        result = calculate_monthly_payment(loan_amount, duration_years, annual_interest_rate)
-        self.assertAlmostEqual(result, expected_payment, places=2)
+    def test_calculate_bmi(self):
+        height = 1.75  # en cm
+        weight = 70   # en kg
+        result = calculate_bmi(height, weight)
+        self.assertAlmostEqual(result, 22.86, places=2)  # Valeur BMI plus réaliste
 
-    def test_calculate_total_cost(self):
-        monthly_payment = 188.71
-        duration_years = 5
-        expected_total_cost = 11322.6
-        result = calculate_total_cost(monthly_payment, duration_years)
-        self.assertAlmostEqual(result, expected_total_cost, places=2)
+    def test_calculate_bmr(self):
+        height = 175  # en cm
+        weight = 70   # en kg
+        age = 25      # en années
+        gender = 'male'
+        result = calculate_bmr(height, weight, age, gender)
+        self.assertAlmostEqual(result, 1724.05, places=2)  # Valeur BMR plus réaliste
 
 if __name__ == '__main__':
     unittest.main()
