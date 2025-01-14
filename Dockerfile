@@ -1,8 +1,8 @@
 FROM python:3.9:slim
 
-WORKDIR /application
+WORKDIR /app
 
-COPY . /application
+COPY . /app
 
 RUN pip install -r requirements.txt
 
