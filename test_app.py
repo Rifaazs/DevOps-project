@@ -1,6 +1,6 @@
 import unittest
 from flask import Flask, jsonify
-from utils import calculate_bmi, calculate_bmr
+from health_utils import calculate_bmi, calculate_bmr
 
 class TestCalculator(unittest.TestCase):
 
