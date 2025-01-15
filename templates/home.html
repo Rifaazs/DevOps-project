@@ -167,29 +167,52 @@
             const weight = parseFloat(document.getElementById('weight').value);
             const height = parseFloat(document.getElementById('height').value);
  
-            $.post('/bmi', { weight, height }, function (data) {
-                $('#bmi_result').text(data.bmi.toFixed(2));
-                $('#bmi_result_container').addClass('fade-in').fadeIn();
-            }).fail(function () {
-                alert("Error calculating BMI. Please ensure valid inputs.");
+            $.ajax({
+                url: '/bmi',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    weight: weight,
+                    height: height
+                }),
+                success: function(data) {
+                    $('#bmi_result').text(data.BMI.toFixed(2));
+                    $('#bmi_result_container').addClass('fade-in').fadeIn();
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    alert(response.error || "Error calculating BMI. Please ensure valid inputs.");
+                }
             });
         }
  
         function calculateBMR() {
             const weight = parseFloat(document.getElementById('weight_bmr').value);
-            const height = parseInt(document.getElementById('height_bmr').value);
+            const height = parseFloat(document.getElementById('height_bmr').value);
             const age = parseInt(document.getElementById('age').value);
             const gender = document.getElementById('gender').value;
  
-            $.post('/bmr', { weight, height, age, gender }, function (data) {
-                $('#bmr_result').text(data.bmr.toFixed(2));
-                $('#bmr_result_container').addClass('fade-in').fadeIn();
-            }).fail(function () {
-                alert("Error calculating BMR. Please ensure valid inputs.");
+            $.ajax({
+                url: '/bmr',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    weight: weight,
+                    height: height,
+                    age: age,
+                    gender: gender
+                }),
+                success: function(data) {
+                    $('#bmr_result').text(data.BMR.toFixed(2));
+                    $('#bmr_result_container').addClass('fade-in').fadeIn();
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    alert(response.error || "Error calculating BMR. Please ensure valid inputs.");
+                }
             });
         }
     </script>
 </body>
  
 </html>
- 
