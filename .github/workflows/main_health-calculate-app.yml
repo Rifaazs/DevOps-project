@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - health-calculate-app
+name: Build and deploy Python app to Azure Web App - health-calculation-app
 
 on:
   push:
@@ -21,14 +21,24 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
       
+      - name: Create env
+        run: make init
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: make install
+        
+      - name: Build Docker image
+        run: make build
+        
+      - name: Start Docker 
+        run: make run
+        
+      - name: Run tests
+        run: make test-api
+
+      - name: Run App
+        run: make test
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
@@ -65,14 +75,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9BB9CCE69F3B4EAFAC60E78EC6C34A22 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EB2E45BA363E46B986684939F60F60EC }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_42C5A5E883E7424994B35FDB2212765B }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_0D311A48C2694FB6B806E264A64E3D46 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D05D2C4D03B14E54ACFA8FC387A172D0 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6E3ED97611A544D3A73FCAD0F9952F82 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'health-calculate-app'
+          app-name: 'health-calculation-app'
           slot-name: 'Production'
           
