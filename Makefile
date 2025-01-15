@@ -6,16 +6,16 @@ PYTHON = python3
 VENV_DIR = $(VENV_NAME)
 
 # Commandes de base
-.PHONY: init build run status test-api test stop clean help
+.PHONY: init install build run status test-api test stop clean help
 
-# Installation des dépendances requises
+# Création l'environnement virtuel
 init:
 	@echo "Création de l'environnement virtuel..."
 	$(PYTHON) -m venv $(VENV_DIR)
-	@echo "Activez votre environnement virtuel en exécutant :"
-	@echo "source $(VENV_DIR)/bin/activate"
-	@echo "Installation des dépendances..."
-	$(VENV_DIR)/bin/pip install -r requirements.txt
+
+install: init
+	@echo "Installing dependencies..."
+	. .venv/bin/activate && pip install -r requirements.txt
 	@echo "Dépendances installées avec succès !"
 
 # Construire l'image Docker
@@ -78,7 +78,8 @@ clean: stop
 # Aide
 help:
 	@echo "Commandes disponibles :"
-	@echo "make init      - Installer les dépendances"
+	@echo "make init      - Création de l'environnement virtuel"
+	@echo "make install"  - Installation des dépendances"
 	@echo "make build     - Construire l'image Docker"
 	@echo "make run       - Démarrer le conteneur"
 	@echo "make status    - Afficher le statut du conteneur"
