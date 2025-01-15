@@ -22,13 +22,23 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-      
+      - name: Create env
+        run: make init
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: make install
+        
+      - name: Build Docker image
+        run: make build
+        
+      - name: Start Docker 
+        run: make run
+        
+      - name: Run tests
+        run: make test-api
+
+      - name: Run App
+        run: make test
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
