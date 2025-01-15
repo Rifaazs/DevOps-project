@@ -13,7 +13,7 @@ init:
 	@echo "Création de l'environnement virtuel..."
 	$(PYTHON) -m venv $(VENV_DIR)
 
-install: init
+install:
 	@echo "Installing dependencies..."
 	. .venv/bin/activate && pip install -r requirements.txt
 	@echo "Dépendances installées avec succès !"
