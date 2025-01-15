@@ -1,7 +1,8 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - health-calculation-app
+name: Build and deploy Python app to Azure Web App - health-calculator-application
 
 on:
   push:
@@ -20,24 +21,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
       
-      - name: Create env
-        run: make init
-
       - name: Install dependencies
-        run: make install
-        
-      - name: Build Docker image
-        run: make build
-        
-      - name: Start Docker 
-        run: make run
-        
-      - name: Run tests
-        run: make test-api
-
-      - name: Run App
-        run: make test
+        run: pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
@@ -74,14 +65,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_0D311A48C2694FB6B806E264A64E3D46 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D05D2C4D03B14E54ACFA8FC387A172D0 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6E3ED97611A544D3A73FCAD0F9952F82 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3A6CC1207C45444CB9C4DF78F7AFCCA1 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_ED258220736E4259987B8E50F88CDD0A }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_80CFC6B76A7C457B89AFD86A98824210 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'health-calculation-app'
+          app-name: 'health-calculator-application'
           slot-name: 'Production'
           
