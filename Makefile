@@ -42,13 +42,13 @@ status:
 	@docker ps -a | grep $(CONTAINER_NAME) || echo "Conteneur non trouvé"
 
 # Tester l'application avec unittest
-test-api:
+test:
 	@echo "Exécution des tests unitaires..."
 	$(VENV_DIR)/bin/python -m unittest test_app.py -v
 	@echo "Tests terminés !"
 
 # Tester les endpoints de l'API
-test:
+test-api:
 	@echo "Tests des endpoints de l'API..."
 	@echo "\nTest du endpoint health..."
 	@curl -s http://localhost:$(PORT)/health || echo "Échec du test health"
