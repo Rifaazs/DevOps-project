@@ -1,172 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
- 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Calculator</title>
+    <title>Health Calculator Pro</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000428;
+            background: linear-gradient(to right, #004e92, #000428);
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-        }
- 
-        .container {
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-in-out;
         }
- 
-        h2,
-        h3 {
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .title {
             text-align: center;
-            color: #ffffff;
+            color: #fff;
+            margin-bottom: 30px;
         }
- 
+
+        .title h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .title p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+        }
+
+        .calculators {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-5px);
+        }
+
+        h3 {
+            color: #fff;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
- 
+
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
- 
-        input[type="number"],
-        select {
+
+        input, select {
             width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            background-color: rgba(255, 255, 255, 0.8);
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
         }
- 
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        select option {
+            background: #004e92;
+            color: #fff;
+        }
+
         button {
             width: 100%;
-            padding: 10px;
+            padding: 14px;
+            background: linear-gradient(45deg, #00b4db, #0083b0);
             border: none;
-            border-radius: 6px;
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
- 
+
         button:hover {
-            background-color: #0056b3;
-            transform: translateY(-3px);
+            background: linear-gradient(45deg, #00b4db, #00b4db);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 180, 219, 0.4);
         }
- 
+
         .result {
             margin-top: 20px;
-            font-size: 1.2em;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 6px;
-            display: none;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             text-align: center;
+            display: none;
         }
- 
-        .result.fade-in {
-            animation: fadeIn 0.5s ease forwards;
+
+        .result p {
+            color: #fff;
+            font-size: 1.2em;
+            margin: 0;
         }
- 
+
+        .result span {
+            font-weight: 700;
+            color: #00b4db;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(10px);
             }
- 
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
- 
-        @keyframes buttonPress {
-            0% {
-                transform: scale(1);
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
             }
- 
-            50% {
-                transform: scale(0.95);
+            
+            .calculators {
+                grid-template-columns: 1fr;
             }
- 
-            100% {
-                transform: scale(1);
-            }
+        }
+
+        /* Custom input number arrows styling */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            height: 50%;
         }
     </style>
 </head>
- 
 <body>
     <div class="container">
-        <h2>Health Calculator</h2>
- 
-        <!-- BMI Calculation -->
-        <h3>Calculate BMI</h3>
-        <div class="input-group">
-            <label for="weight">Weight (kg)</label>
-            <input type="number" id="weight" name="weight" required>
+        <div class="title">
+            <h1>Health Calculator Pro</h1>
+            <p>Calculate your BMI and BMR with precision</p>
         </div>
-        <div class="input-group">
-            <label for="height">Height (m)</label>
-            <input type="number" step="0.01" id="height" name="height" required>
-        </div>
-        <button onclick="calculateBMI()">Calculate BMI</button>
- 
-        <div class="result" id="bmi_result_container">
-            <p>BMI: <span id="bmi_result">0.00</span></p>
-        </div>
- 
-        <!-- BMR Calculation -->
-        <h3>Calculate BMR</h3>
-        <div class="input-group">
-            <label for="weight_bmr">Weight (kg)</label>
-            <input type="number" id="weight_bmr" name="weight_bmr" required>
-        </div>
-        <div class="input-group">
-            <label for="height_bmr">Height (cm)</label>
-            <input type="number" id="height_bmr" name="height_bmr" required>
-        </div>
-        <div class="input-group">
-            <label for="age">Age (years)</label>
-            <input type="number" id="age" name="age" required>
-        </div>
-        <div class="input-group">
-            <label for="gender">Gender</label>
-            <select id="gender" name="gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-        </div>
-        <button onclick="calculateBMR()">Calculate BMR</button>
- 
-        <div class="result" id="bmr_result_container">
-            <p>BMR: <span id="bmr_result">0.00</span> kcal/day</p>
+
+        <div class="calculators">
+            <!-- BMI Calculator Card -->
+            <div class="calculator-card">
+                <h3>BMI Calculator</h3>
+                <div class="input-group">
+                    <label for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" name="weight" step="0.1" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="height">Height (m)</label>
+                    <input type="number" id="height" name="height" step="0.01" min="0" required>
+                </div>
+                <button onclick="calculateBMI()">Calculate BMI</button>
+                <div class="result" id="bmi_result_container">
+                    <p>Your BMI is <span id="bmi_result">0.00</span></p>
+                </div>
+            </div>
+
+            <!-- BMR Calculator Card -->
+            <div class="calculator-card">
+                <h3>BMR Calculator</h3>
+                <div class="input-group">
+                    <label for="weight_bmr">Weight (kg)</label>
+                    <input type="number" id="weight_bmr" name="weight_bmr" step="0.1" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="height_bmr">Height (cm)</label>
+                    <input type="number" id="height_bmr" name="height_bmr" step="1" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="age">Age (years)</label>
+                    <input type="number" id="age" name="age" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <button onclick="calculateBMR()">Calculate BMR</button>
+                <div class="result" id="bmr_result_container">
+                    <p>Your BMR is <span id="bmr_result">0.00</span> kcal/day</p>
+                </div>
+            </div>
         </div>
     </div>
- 
+
     <script>
         function calculateBMI() {
             const weight = parseFloat(document.getElementById('weight').value);
             const height = parseFloat(document.getElementById('height').value);
- 
+
             $.ajax({
                 url: '/bmi',
                 type: 'POST',
@@ -185,13 +261,13 @@
                 }
             });
         }
- 
+
         function calculateBMR() {
             const weight = parseFloat(document.getElementById('weight_bmr').value);
             const height = parseFloat(document.getElementById('height_bmr').value);
             const age = parseInt(document.getElementById('age').value);
             const gender = document.getElementById('gender').value;
- 
+
             $.ajax({
                 url: '/bmr',
                 type: 'POST',
@@ -214,5 +290,4 @@
         }
     </script>
 </body>
- 
 </html>
