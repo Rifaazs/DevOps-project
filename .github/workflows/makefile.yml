@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: make init
+
+    - name: Build Docker image
+      run: make build
+
+    - name: Start Docker 
+      run: make run
+
+    - name: App tests
+      run: make test-api
+
+    - name: Run check
+      run: make check
+
+    - name: Run distcheck
+      run: make distcheck
