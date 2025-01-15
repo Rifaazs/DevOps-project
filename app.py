@@ -3,9 +3,6 @@ from health_utils import calculate_bmi, calculate_bmr
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return render_template('home.html')
 
 @app.route('/health', methods=['GET'])
 def health():
@@ -55,6 +52,10 @@ def bmr():
         return jsonify({'error': str(e)}), 400
     except Exception as e:
         return jsonify({'error': 'Internal server error'}), 500
+
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
