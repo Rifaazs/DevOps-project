@@ -1,54 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Calculator</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Calculateur Santé - BMI & BMR</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 500px; margin: auto; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input[type="number"] { width: 100%; padding: 8px; }
-        button { padding: 10px 20px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-        .result { margin-top: 20px; font-size: 1.1em; }
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #34495e;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        .error {
+            color: #e74c3c;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Loan Calculator</h2>
-        <div class="input-group">
-            <label for="loan_amount">Loan Amount ($)</label>
-            <input type="number" id="loan_amount" name="loan_amount" required>
+        <h1>Calculateur Santé</h1>
+        
+        <div class="calculator">
+            <h2>Calculateur d'IMC (BMI)</h2>
+            <div class="form-group">
+                <label for="bmi-height">Taille (en mètres)</label>
+                <input type="number" id="bmi-height" step="0.01" placeholder="Ex: 1.75">
+            </div>
+            <div class="form-group">
+                <label for="bmi-weight">Poids (en kg)</label>
+                <input type="number" id="bmi-weight" step="0.1" placeholder="Ex: 70">
+            </div>
+            <button onclick="calculateBMI()">Calculer IMC</button>
+            <div id="bmi-result" class="result"></div>
         </div>
-        <div class="input-group">
-            <label for="duration">Duration (years)</label>
-            <input type="number" id="duration" name="duration" required>
-        </div>
-        <div class="input-group">
-            <label for="interest_rate">Interest Rate (%)</label>
-            <input type="number" id="interest_rate" name="interest_rate" step="0.01" required>
-        </div>
-        <button onclick="calculateLoan()">Calculate</button>
 
-        <div class="result">
-            <p>Monthly Payment: $<span id="monthly_payment">0.00</span></p>
-            <p>Total Cost of Loan: $<span id="total_cost">0.00</span></p>
+        <div class="calculator" style="margin-top: 40px;">
+            <h2>Calculateur de Métabolisme de Base (BMR)</h2>
+            <div class="form-group">
+                <label for="bmr-height">Taille (en centimètres)</label>
+                <input type="number" id="bmr-height" step="1" placeholder="Ex: 175">
+            </div>
+            <div class="form-group">
+                <label for="bmr-weight">Poids (en kg)</label>
+                <input type="number" id="bmr-weight" step="0.1" placeholder="Ex: 70">
+            </div>
+            <div class="form-group">
+                <label for="bmr-age">Âge</label>
+                <input type="number" id="bmr-age" placeholder="Ex: 30">
+            </div>
+            <div class="form-group">
+                <label for="bmr-gender">Genre</label>
+                <select id="bmr-gender">
+                    <option value="male">Homme</option>
+                    <option value="female">Femme</option>
+                </select>
+            </div>
+            <button onclick="calculateBMR()">Calculer BMR</button>
+            <div id="bmr-result" class="result"></div>
         </div>
     </div>
 
     <script>
-        function calculateLoan() {
-            const loan_amount = parseFloat(document.getElementById('loan_amount').value);
-            const duration = parseInt(document.getElementById('duration').value);
-            const interest_rate = parseFloat(document.getElementById('interest_rate').value);
+        const API_URL = 'http://localhost:5000';
 
-            $.post('/calculate', { loan_amount, duration, interest_rate }, function(data) {
-                $('#monthly_payment').text(data.monthly_payment.toFixed(2));
-                $('#total_cost').text(data.total_cost.toFixed(2));
-            });
+        async function calculateBMI() {
+            const height = parseFloat(document.getElementById('bmi-height').value);
+            const weight = parseFloat(document.getElementById('bmi-weight').value);
+            const resultDiv = document.getElementById('bmi-result');
+
+            try {
+                const response = await axios.post(`${API_URL}/bmi`, {
+                    height: height,
+                    weight: weight
+                });
+                const bmi = response.data.BMI.toFixed(2);
+                let interpretation = '';
+                if (bmi < 18.5) interpretation = 'Sous-poids';
+                else if (bmi < 25) interpretation = 'Poids normal';
+                else if (bmi < 30) interpretation = 'Surpoids';
+                else interpretation = 'Obésité';
+                
+                resultDiv.innerHTML = `
+                    <strong>Votre IMC est : ${bmi}</strong><br>
+                    Interprétation : ${interpretation}
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Erreur: ${error.response?.data?.error || error.message}</div>`;
+            }
+        }
+
+        async function calculateBMR() {
+            const height = parseFloat(document.getElementById('bmr-height').value);
+            const weight = parseFloat(document.getElementById('bmr-weight').value);
+            const age = parseInt(document.getElementById('bmr-age').value);
+            const gender = document.getElementById('bmr-gender').value;
+            const resultDiv = document.getElementById('bmr-result');
+
+            try {
+                const response = await axios.post(`${API_URL}/bmr`, {
+                    height: height,
+                    weight: weight,
+                    age: age,
+                    gender: gender
+                });
+                const bmr = response.data.BMR.toFixed(2);
+                resultDiv.innerHTML = `
+                    <strong>Votre métabolisme de base est : ${bmr} calories/jour</strong><br>
+                    C'est le nombre de calories que votre corps brûle au repos.
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Erreur: ${error.response?.data?.error || error.message}</div>`;
+            }
         }
     </script>
 </body>
