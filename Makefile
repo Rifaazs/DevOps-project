@@ -1,7 +1,7 @@
 IMAGE_NAME = health-calculator
 CONTAINER_NAME = health-calculator-app
 PORT = 5000
-VENV_NAME = venv
+VENV_NAME = .venv
 PYTHON = python3
 VENV_DIR = $(VENV_NAME)
 
