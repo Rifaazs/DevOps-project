@@ -21,16 +21,21 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: make init
         
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+      - name: Build Docker image
+        run: make build
+        
+      - name: Start Docker 
+        run: make run
+        
+      - name: Run tests
+        run: make test-api
+
+      - name: Run App
+        run: make test
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -47,10 +52,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write
 
     steps:
       - name: Download artifact from build job
@@ -60,19 +65,17 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_853825423AE1468389B5280994BA235B }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E6BEB19D4FF446E685F0650385227111 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4B45C2AC21444BB082CFDAD720F68D3D }}
+          client-id: ${{ secrets.__clientidsecretname__ }}
+          tenant-id: ${{ secrets.__tenantidsecretname__ }}
+          subscription-id: ${{ secrets.__subscriptionidsecretname__ }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'health-calculator-app'
-          slot-name: 'Production'
-          
+          slot-name: 'production'
