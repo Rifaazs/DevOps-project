@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-test-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,18 +19,11 @@ jobs:
         python-version: '3.x'
 
     - name: Install dependencies
-      run: | # here is the first command
+      run: make init
        
 
     - name: Run tests
-      run: | # here is the first command
+      run: make test-api
 
     - name: Build Docker image
-      run: | # here is the first command
-
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'flask-python-app' # replace with your app name
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ./microservice
+      run: make build
