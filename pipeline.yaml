@@ -19,10 +19,12 @@ jobs:
 
     - name: Install dependencies
       run: make init
-       
-
-    - name: Run tests
-      run: make test-api
 
     - name: Build Docker image
       run: make build
+
+    - name: Start Docker 
+      run: make run
+
+    - name: App tests
+      run: make test-api
