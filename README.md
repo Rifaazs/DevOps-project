@@ -36,7 +36,7 @@ health-calculator-service/
 ├── Dockerfile                                  # Docker configuration
 ├── Makefile                                    # Task automation
 ├── test_app.py                                 # Unit tests
-├── README.md                                   # instructions for use the application
+├── README.md                                   # Instructions for use the application
 ├── .github/workflows/
 |   └── main_health-calculator-application.yml  # GitHub Actions pipeline
 └── templates
@@ -196,21 +196,8 @@ Ensure that your Azure secrets are correctly configured in your GitHub repositor
    - `AZUREAPPSERVICE_CLIENTID`
    - `AZUREAPPSERVICE_TENANTID`
    - `AZUREAPPSERVICE_SUBSCRIPTIONID`
-
-
-## Known Issues and Improvements
-- Additional validations can be added for API inputs.
-- Add caching mechanisms for repeated calculations.
-- Extend the CI/CD pipeline with additional stages like linting or security scans.
-
----
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
 ---
 
 ## Author
-Your Name
+MOUGAMMADOU ZACCARIA Zaafir
 
-For questions or feedback, feel free to contact [your_email@example.com].
