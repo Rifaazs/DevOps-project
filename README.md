@@ -10,7 +10,7 @@ Un microservice REST API développé en Python pour calculer des métriques de s
 - Conteneurisation avec Docker
 - Tests automatisés
 - Makefile pour l'automatisation des tâches
-- Déploiement sur Azure
+- Déploiement sur Azure Web App Services
 
 ## 📋 Prérequis
 
@@ -18,7 +18,7 @@ Un microservice REST API développé en Python pour calculer des métriques de s
 - Docker
 - Make
 - curl (pour les tests API)
-- Azure App Services
+- Azure Web App Services
 
 ## 🛠 Installation
 
