@@ -27,6 +27,19 @@ This project involves the creation of a Python-based microservice that calculate
 
 ---
 
+## Project Structure
+```
+health-calculator-service/
+├── app.py               # Main Flask application
+├── health_utils.py      # Utility functions for BMI and BMR calculations
+├── requirements.txt     # Python dependencies
+├── Dockerfile           # Docker configuration
+├── Makefile             # Task automation
+├── test.py              # Unit tests
+└── .github/workflows/main_health-calculator-application.yml  # GitHub Actions pipeline
+```
+
+
 ## Setup Instructions
 1. Clone the repository :
 ```bash
@@ -72,18 +85,6 @@ make test
 ```bash
 make test-api
 ```
-## Project Structure
-```
-health-calculator-service/
-├── app.py               # Main Flask application
-├── health_utils.py      # Utility functions for BMI and BMR calculations
-├── requirements.txt     # Python dependencies
-├── Dockerfile           # Docker configuration
-├── Makefile             # Task automation
-├── test.py              # Unit tests
-└── .github/workflows/main_health-calculator-application.yml  # GitHub Actions pipeline
-```
-
 ---
 
 ## API Endpoints
