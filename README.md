@@ -24,7 +24,7 @@ Un microservice REST API développé en Python pour calculer des métriques de s
 
 1. Cloner le repository :
 ```bash
-git clone https://github.com/votre-username/health-calculator-service.git
+git clone <repository>
 cd health-calculator-service
 ```
 
