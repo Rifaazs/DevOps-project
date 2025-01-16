@@ -81,7 +81,7 @@ health-calculator-service/
 ├── Dockerfile           # Docker configuration
 ├── Makefile             # Task automation
 ├── test.py              # Unit tests
-└── .github/workflows/ci-cd.yml  # GitHub Actions pipeline
+└── .github/workflows/main_health-calculator-application.yml  # GitHub Actions pipeline
 ```
 
 ---
@@ -179,9 +179,9 @@ The CI/CD pipeline automates the following tasks:
 1. Checks out the code.
 2. Sets up the Python environment.
 3. Installs dependencies.
-4. Runs unit tests.
-5. Builds the Docker image.
-6. Launch teh container 
+4. Build Docker image
+5. Start Docker
+6. Runs unit tests.
 7. Deploys the application to Azure.
 
 
