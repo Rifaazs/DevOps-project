@@ -1,172 +1,168 @@
-# Health Calculator Pro App - Devops Project
+# Health Calculator Microservice with CI/CD Pipeline on Azure
 
-Un microservice REST API développé en Python pour calculer des métriques de santé (IMC et BMR) avec Docker et des tests automatisés.
+## Project Overview
+This project involves the creation of a Python-based microservice that calculates health metrics (BMI and BMR) using a REST API. The application is containerized with Docker, orchestrated using a Makefile, and deployed to Azure App Service using a CI/CD pipeline implemented with GitHub Actions.
 
-## 🚀 Fonctionnalités
+---
 
-- Calcul de l'IMC (Indice de Masse Corporelle)
-- Calcul du BMR (Basal Metabolic Rate) avec l'équation Harris-Benedict
-- API REST avec Flask
-- Conteneurisation avec Docker
-- Tests automatisés
-- Makefile pour l'automatisation des tâches
-- Déploiement sur Azure Web App Services
+## Features
+- **BMI Calculation**: Calculates Body Mass Index (BMI) using weight (kg) and height (m).
+- **BMR Calculation**: Calculates Basal Metabolic Rate (BMR) using weight (kg), height (cm), age, and gender.
+- **RESTful API**: Flask-based API with endpoints:
+  - `/bmi`: For BMI calculations.
+  - `/bmr`: For BMR calculations.
+- **Dockerized**: Fully containerized application.
+- **CI/CD**: GitHub Actions pipeline for automated testing and deployment.
+- **Azure Deployment**: Hosted on Azure App Service.
 
-## 📋 Prérequis
+---
 
-- Python 3.9+
-- Docker
-- Make
-- curl (pour les tests API)
-- Azure Web App Services
+## Prerequisites
 
-## 🛠 Installation
+### Tools
+- [Python 3.9+](https://www.python.org/)
+- [Docker](https://www.docker.com/)
+- [Git](https://git-scm.com/)
+- [Azure Account](https://azure.microsoft.com/)
 
-1. Cloner le repository :
-```bash
-git clone <repository>
-cd health-calculator-service
-```
+### Setup Instructions
+1. Clone the repository:
+   ```bash
+   git clone <repository_url>
+   cd health-calculator-service
+   ```
+2. Install Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Run the Flask app locally:
+   ```bash
+   python app.py
+   ```
+4. Test API endpoints using tools like Postman or curl.
 
-2. Initialiser l'environnement virtuelle :
-```bash
-make init
-```
+---
 
-2. Activer l'environnement virtuelle :
-```bash
-make install
-```
-
-## 🏗 Construction et Démarrage
-
-1. Construire l'image Docker :
-```bash
-make build
-```
-
-2. Lancer le conteneur :
-```bash
-make run
-```
-
-3. Vérifier le statut du conteneur :
-```bash
-make status
-```
-
-## 🧪 Tests
-
-1. Exécuter les tests unitaires :
-```bash
-make test
-```
-
-2. Tester les endpoints de l'API :
-```bash
-make test-api
-```
-
-## 📌 Endpoints API
-
-### Calcul de l'IMC
-```http
-POST /bmi
-```
-Body:
-```json
-{
-    "height": 1.75,    // en mètres
-    "weight": 70       // en kilogrammes
-}
-```
-
-### Calcul du BMR
-```http
-POST /bmr
-```
-Body:
-```json
-{
-    "height": 175,     // en centimètres
-    "weight": 70,      // en kilogrammes
-    "age": 30,         // en années
-    "gender": "male"   // "male" ou "female"
-}
-```
-
-### Vérification de la santé
-```http
-GET /health
-```
-
-## 🧮 Formules Utilisées
-
-### IMC
-```
-IMC = poids(kg) / (taille(m))²
-```
-
-### BMR (Harris-Benedict)
-Pour les hommes :
-```
-BMR = 88.362 + (13.397 × poids(kg)) + (4.799 × taille(cm)) - (5.677 × âge)
-```
-Pour les femmes :
-```
-BMR = 447.593 + (9.247 × poids(kg)) + (3.098 × taille(cm)) - (4.330 × âge)
-```
-
-## 📝 Commandes Make Disponibles
-
-- `make init` : Initialise l'environnement virtuel et installe les dépendances
-- `make build` : Construit l'image Docker
-- `make run` : Lance le conteneur
-- `make status` : Affiche le statut du conteneur
-- `make test-api` : Lance les tests unitaires
-- `make test` : Teste les endpoints de l'API
-- `make stop` : Arrête et supprime le conteneur
-- `make clean` : Nettoie tout (conteneur, image, et environnement virtuel)
-
-## 🛑 Arrêt et Nettoyage
-
-Pour arrêter le conteneur :
-```bash
-make stop
-```
-
-Pour tout nettoyer :
-```bash
-make clean
-```
-
-## 🔍 Structure du Projet
-
+## Project Structure
 ```
 health-calculator-service/
-│
-├── app.py              # Application Flask principale
-├── health_utils.py     # Fonctions utilitaires pour les calculs
-├── test.py            # Tests unitaires
-├── Dockerfile         # Configuration Docker
-├── Makefile          # Automatisation des tâches
-└── requirements.txt   # Dépendances Python
+├── app.py               # Main Flask application
+├── health_utils.py      # Utility functions for BMI and BMR calculations
+├── requirements.txt     # Python dependencies
+├── Dockerfile           # Docker configuration
+├── Makefile             # Task automation
+├── test.py              # Unit tests
+└── .github/workflows/ci-cd.yml  # GitHub Actions pipeline
 ```
 
-## ⚙️ Variables d'Environnement
+---
 
-Le service utilise les variables d'environnement suivantes :
-- `PORT` : Port sur lequel le service écoute (défaut: 5000)
+## API Endpoints
+### 1. `/bmi`
+**Method**: POST
 
-## 🤝 Contribution
+**Request Body**:
+```json
+{
+  "height": 1.75,
+  "weight": 70
+}
+```
 
-Les contributions sont les bienvenues ! N'hésitez pas à :
-1. Fork le projet
-2. Créer une branche pour votre fonctionnalité
-3. Commit vos changements
-4. Push sur la branche
-5. Ouvrir une Pull Request
+**Response**:
+```json
+{
+  "bmi": 22.86
+}
+```
 
-## 📄 Licence
+### 2. `/bmr`
+**Method**: POST
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+**Request Body**:
+```json
+{
+  "height": 175,
+  "weight": 70,
+  "age": 30,
+  "gender": "male"
+}
+```
+
+**Response**:
+```json
+{
+  "bmr": 1666.47
+}
+```
+
+---
+
+## Docker Usage
+### Build Docker Image
+```bash
+docker build -t health-calculator-service .
+```
+
+### Run Docker Container
+```bash
+docker run -p 5000:5000 health-calculator-service
+```
+
+---
+
+## Makefile Commands
+| Command       | Description                       |
+|---------------|-----------------------------------|
+| `make init`   | Install dependencies              |
+| `make run`    | Run the Flask application         |
+| `make test`   | Execute unit tests                |
+| `make build`  | Build the Docker image            |
+| `make clean`  | Remove temporary/generated files  |
+
+---
+
+## Testing
+Run unit tests to validate BMI and BMR calculations:
+```bash
+python -m unittest test.py
+```
+
+---
+
+## CI/CD Pipeline
+### GitHub Actions Workflow
+The CI/CD pipeline automates the following tasks:
+1. Checks out the code.
+2. Sets up the Python environment.
+3. Installs dependencies.
+4. Runs unit tests.
+5. Builds the Docker image.
+6. Deploys the application to Azure.
+
+The configuration is in `.github/workflows/ci-cd.yml`.
+
+### Deployment to Azure
+1. Create an Azure App Service instance.
+2. Download the **Publish Profile** from Azure.
+3. Add the profile to GitHub Secrets as `AZURE_WEBAPP_PUBLISH_PROFILE`.
+4. Push changes to the `main` branch to trigger deployment.
+
+---
+
+## Known Issues and Improvements
+- Additional validations can be added for API inputs.
+- Add caching mechanisms for repeated calculations.
+- Extend the CI/CD pipeline with additional stages like linting or security scans.
+
+---
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+## Author
+Your Name
+
+For questions or feedback, feel free to contact [your_email@example.com].
