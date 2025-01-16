@@ -30,17 +30,17 @@ This project involves the creation of a Python-based microservice that calculate
 ## Project Structure
 ```
 health-calculator-service/
-├── app.py               # Main Flask application
-├── health_utils.py      # Utility functions for BMI and BMR calculations
-├── requirements.txt     # Python dependencies
-├── Dockerfile           # Docker configuration
-├── Makefile             # Task automation
-├── test_app.py          # Unit tests
-├── README.md            # Unit tests
+├── app.py                                      # Main Flask application
+├── health_utils.py                             # Utility functions for BMI and BMR calculations
+├── requirements.txt                            # Python dependencies
+├── Dockerfile                                  # Docker configuration
+├── Makefile                                    # Task automation
+├── test_app.py                                 # Unit tests
+├── README.md                                   # instructions for use the application
 ├── .github/workflows/
 |   └── main_health-calculator-application.yml  # GitHub Actions pipeline
 └── templates
-    └── home.html
+    └── home.html                               # Application UI
 ```
 
 
