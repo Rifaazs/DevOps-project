@@ -35,8 +35,12 @@ health-calculator-service/
 ├── requirements.txt     # Python dependencies
 ├── Dockerfile           # Docker configuration
 ├── Makefile             # Task automation
-├── test.py              # Unit tests
-└── .github/workflows/main_health-calculator-application.yml  # GitHub Actions pipeline
+├── test_app.py          # Unit tests
+├── README.md            # Unit tests
+├── .github/workflows/
+|   └── main_health-calculator-application.yml  # GitHub Actions pipeline
+└── templates
+    └── home.html
 ```
 
 
