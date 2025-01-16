@@ -20,9 +20,6 @@ install:
 
 # Construire l'image Docker
 build:
-	@echo "Installation des dépendances..."
-	$(VENV_DIR)/bin/pip install -r requirements.txt
-	@echo "Dépendances installées avec succès !"
 	@echo "Construction de l'image Docker en cours..."
 	docker build -t $(IMAGE_NAME) .
 	@echo "Construction terminée !"
