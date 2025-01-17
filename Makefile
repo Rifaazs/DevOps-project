@@ -1,30 +1,25 @@
+IMAGE_NAME = health-calculator
+CONTAINER_NAME = health-calculator-app
+PORT = 5000
+VENV_NAME = .venv
+PYTHON = python3
+VENV_DIR = $(VENV_NAME)
 
-# Définition des variables globales
-IMAGE_NAME = health-calculator          # Nom de l'image Docker
-CONTAINER_NAME = health-calculator-app  # Nom du conteneur Docker
-PORT = 5000                             # Port sur lequel l'application sera exposée
-VENV_NAME = .venv                       # Nom de l'environnement virtuel Python
-PYTHON = python3                        # Commande Python à utiliser
-VENV_DIR = $(VENV_NAME)                 # Répertoire de l'environnement virtuel
-
-
-# Déclaration des cibles factices (qui ne produisent pas de fichier)
+# Commandes de base
 .PHONY: init install build run status test-api test stop clean help
 
-# Création de l'environnement virtuel
+# Création l'environnement virtuel
 init:
 	@echo "Création de l'environnement virtuel..."
-	$(PYTHON) -m venv $(VENV_DIR) 
+	$(PYTHON) -m venv $(VENV_DIR)
 
 install:
-	# Active l'environnement virtuel et installe les packages depuis requirements.txt
 	@echo "Installing dependencies..."
 	. .venv/bin/activate && pip install -r requirements.txt
 	@echo "Dépendances installées avec succès !"
 
 # Construire l'image Docker
 build:
-	# Crée une image Docker à partir du Dockerfile
 	@echo "Construction de l'image Docker en cours..."
 	docker build -t $(IMAGE_NAME) .
 	@echo "Construction terminée !"
@@ -79,7 +74,6 @@ clean: stop
 
 # Aide
 help:
-	# Affiche la liste des commandes disponibles avec leur description
 	@echo "Commandes disponibles :"
 	@echo "make init      - Création de l'environnement virtuel"
 	@echo "make install"  - Installation des dépendances"
