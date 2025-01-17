@@ -31,8 +31,6 @@ build:
 
 # Lancer le conteneur
 run:
-        # Supprime d'abord tout conteneur existant du même nom
-        # Puis lance un nouveau conteneur en mode détaché (-d)
 	@echo "Démarrage du conteneur..."
 	-docker rm -f $(CONTAINER_NAME) 2>/dev/null || true
 	docker run -d -p $(PORT):$(PORT) --name $(CONTAINER_NAME) $(IMAGE_NAME)
