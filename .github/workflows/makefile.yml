@@ -1,47 +1,41 @@
-name: CI/CD Pipeline
-
 on:
   push:
-    branches:
-      - main  # Se déclenche lors d'un push sur la branche main
-  workflow_dispatch:  # Permet le déclenchement manuel du workflow
+    branches: ["main"] # Se déclenche lors d'un push sur la branche main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Utilise la dernière version d'Ubuntu comme environnement d'exécution
+    runs-on: ubuntu-latest # Utilise la dernière version d'Ubuntu comme environnement d'exécution
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
     
-    steps:
-      # Étape 1: Checkout du code source
-      - name: Checkout code
-      - uses: actions/checkout@v4
+    # Étape 1: Initialisation de l'environnement
+    - name: Create env
+      run: make init
 
-      # Étape 2: Configuration de l'environnement Python
-      - name: Set up Python version
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'  # Utilise Python 3.12
-
-      # Étape 3: Initialisation de l'environnement
-      - name: Create env
-        run: make init
-
-      # Étape 4: Installation des dépendances
-      - name: Install dependencies
-        run: make install
+    # Étape 2: Installation des dépendances
+    - name: Install dependencies
+      run: make install
         
-      # Étape 5: Construction de l'image Docker
-      - name: Build Docker image
-        run: make build
+    # Étape 3: Construction de l'image Docker
+    - name: Build Docker image
+      run: make build
         
-      # Étape 6: Démarrage du conteneur Docker
-      - name: Start Docker 
-        run: make run
+    # Étape 4: Démarrage du conteneur Docker
+    - name: Start Docker 
+      run: make run
         
-      # Étape 7: Exécution des tests API
-      - name: Run tests
-        run: make test-api
+    # Étape 5: Exécution des tests API
+    - name: Run tests
+      run: make test-api
 
-      # Étape 8: Exécution de l'application pour les tests
-      - name: Run App
-        run: make test
+    # Étape 6: Exécution de l'application pour les tests
+    - name: Run App
+      run: make test
