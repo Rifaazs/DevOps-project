@@ -1,4 +1,6 @@
-IMAGE_NAME = health-calculator
+
+# Variable 
+IMAGE_NAME = health-calculator 
 CONTAINER_NAME = health-calculator-app
 PORT = 5000
 VENV_NAME = .venv
@@ -8,10 +10,10 @@ VENV_DIR = $(VENV_NAME)
 # Commandes de base
 .PHONY: init install build run status test-api test stop clean help
 
-# Création l'environnement virtuel
+# Création de l'environnement virtuel
 init:
 	@echo "Création de l'environnement virtuel..."
-	$(PYTHON) -m venv $(VENV_DIR)
+	$(PYTHON) -m venv $(VENV_DIR) 
 
 install:
 	@echo "Installing dependencies..."
