@@ -178,7 +178,7 @@ make test-api
 
 ## Configuring GitHub Actions Workflow
 
-The following file will add automaticaly to your repository as `.github/workflows/{app-name}.yml`.
+The following file will add automaticaly to your repository as `.github/workflows/{app-name}.yml` after the deployment of your Web App Services.
 
 The CI/CD pipeline automates the following tasks:
 1. Checks out the code.
